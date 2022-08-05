@@ -19,5 +19,5 @@ btn.addEventListener('click', (e) => {
  document.querySelector('body').classList.add('bg-dark');
  document.querySelector('.items').lastElementChild.innerHTML = '<h1>Hello</h1>';
  document.querySelector('.items').secondElementChild.innerHTML = '<h1>Hello</h1>';
-
+document.querySelector('.items').firstElementChild.innerHTML = '<h1>Hello</h1>';
 })
