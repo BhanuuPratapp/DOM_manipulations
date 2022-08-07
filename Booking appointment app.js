@@ -37,11 +37,17 @@
    </div>
   </div>
   <script>
-    function saveToLocalStorage(event) {
+   function saveToLocalStorage(event) {
     event.preventDefault();
-    const name = event.target.item.value;
-    localStorage.setItem('value', name);
-}    
+    let myobj = {
+     name : event.target.item.value,
+    }
+   let myobj_serialized = JSON.stringify(myobj);
+   localStorage.setItem('value', myobj_serialized);
+   let name_deserialized = JSON.parse(localStorage.getItem('value'));
+   console.log(name_deserialized);
+   
+}
   </script>
 </body>
 </html>
