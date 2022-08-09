@@ -1,97 +1,80 @@
-var form = document.getElementById('addForm');
-var itemList = document.getElementById('items');
-var filter = document.getElementById('filter');
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Forms</title>
+    </head>
+        <body>
+           
+            <form onsubmit="saveToLocalStorage(event)">
+            <label> Name</label>
+            <input type="text" id='username' name="username" required/>
+            <label> EmailId</label>
+            <input type="email" id='email' name="email" required/>  
+            <button> Submit </button>
+            </form>
+            <ul id='listofusers'></ul>
+            <script>
+                function saveToLocalStorage(event) {
+                    event.preventDefault();
+                    const name = event.target.username.value;
+                    const email = event.target.email.value;
+                    
+                    const obj = {
+                        name,
+                        email
+                    }
+                    localStorage.setItem(obj.email,JSON.stringify(obj));
+                    showListofRegisteredUser(obj);
+                }
 
-// Form submit event
-form.addEventListener('submit', addItem);
-// Delete event
-itemList.addEventListener('click', removeItem);
-// Filter event
-filter.addEventListener('keyup', filterItems);
+                window.addEventListener('DOMContentLoaded', (event) => {
+                Object.keys(localStorage).forEach(key => {
+                    const user = JSON.parse(localStorage.getItem(key))
+                    showListofRegisteredUser(user)
+                });
+            });
 
-// Add item
-function addItem(e){
-  e.preventDefault();
+            
 
-  // Get input value
-  var newItem = document.getElementById('item').value;
+                function showListofRegisteredUser(users){
+                    document.getElementById('username').value = '';
+                    document.getElementById('email').value = '';
 
-  var myobj = JSON.parse(localStorage.getItem("myobj"));
-  if(myobj){
-    newItem.value = myobj.name;
-  }
+                    if(localStorage.getItem(users.email) !== null){
+                        removeUsersFromScreen(users.email);
+                    }
+                    var parentNode = document.getElementById('listofusers');
+                    var childNode = `<li id='${users.email}'> ${users.name} ${users.email} <button onclick=deleteUser('${users.email}')> Delete User </button> <button onclick=editUserDetails('${users.email}','${users.name}')>Edit User</button></li>`;
+                  parentNode.innerHTML = parentNode.innerHTML + childNode;
+                }
 
-  // Create new li element
-  var li = document.createElement('li');
-  // Add class
-  li.className = 'list-group-item';
-  // Add text node with input value
-  li.appendChild(document.createTextNode(newItem));
+                function editUser(email1,name1){
+                    document.getElementById('email').value = email1;
+                    document.getElementById('username').value = name1;
+                    
+                    deleteUser(email1);
+                }
 
-  // Create del button element
-  var deleteBtn = document.createElement('button');
+                function deleteUser(userName){
 
-  // Add classes to del button
-  deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+                    localStorage.removeItem(userName);
+                    removeUsersFromScreen(userName);
 
-  // Append text node
-  deleteBtn.appendChild(document.createTextNode('X'));
+                }
 
-  // Append button to li
-  li.appendChild(deleteBtn);
+                function removeUsersFromScreen(emailID){
+                    var parentNode1 = document.getElementById('listofusers');
+                    var childNodeToBeDeleted = document.getElementById(emailID);
+                    if(childNodeToBeDeleted){
+                    parentNode1.removeChild(childNodeToBeDeleted);
+                    }
+                }
 
-  // Append li to list
-  itemList.appendChild(li);
-}
-
-// Remove item
-function removeItem(e){
-  if(e.target.classList.contains('delete')){
-    if(confirm('Are You Sure?')){
-      var li = e.target.parentElement;
-      itemList.removeChild(li);
-    }
-  }
-}
-
-// Filter Items
-function filterItems(e){
-  // convert text to lowercase
-  var text = e.target.value.toLowerCase();
-  // Get lis
-  var items = itemList.getElementsByTagName('li');
-  // Convert to an array
-  Array.from(items).forEach(function(item){
-    var itemName = item.firstChild.textContent;
-    if(itemName.toLowerCase().indexOf(text) != -1){
-      item.style.display = 'block';
-    } else {
-      item.style.display = 'none';
-    }
-  });
-}
-function saveToLocalStorage(event) {
-    function saveToLocalStorage(event) {
-     event.preventDefault();
-     //const name = event.target.item.value;
-   //  localStorage.setItem('value', name);
- }    
-     let myobj = {
-      name : event.target.item.value,
-     }
-    let myobj_serialized = JSON.stringify(myobj);
-    localStorage.setItem(myobj.name, myobj_serialized);
-    //let name_deserialized = JSON.parse(localStorage.getItem('value'));
-     showNewUserOnScreen(myobj);
-
-}
-function showNewUserOnScreen(user){
-    const parentNode = document.getElementById('items2');
-    const childHTML =`<li> ${user.name} </li>`;
-
-    parentNode.innerHTML =  parentNode.innerHTML + childHTML;
-
-
-
-} 
-  //// final project
+        
+            </script>
+        </body>
+    
+    </html>
