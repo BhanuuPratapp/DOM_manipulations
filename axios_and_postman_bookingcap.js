@@ -19,11 +19,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
             <script>
                 function saveToLocalStorage(event) {
-                    axios.post("https://crudcrud.com/api/2eee19f413434335b1d619571a1ba2c7/AppointmentData",obj)
-                   .then((response) =>{
-                       console.log(response)
-                   })
-                   .catch(err => console.log(err))
+                  
                     event.preventDefault();
                     const name = event.target.username.value;
                     const email = event.target.email.value;
@@ -32,6 +28,15 @@
                         name,
                         email
                     }
+                    axios.post("https://crudcrud.com/api/dfce67c4ef5c4447bc1779e862e930dc/BookingAppointmentdata",obj)
+                   .then((response) =>{
+                    showListofRegisteredUser(response.data);
+                       console.log(response)
+                   })
+                   .catch((err) => {
+                    document.body.innerHTML = document.body.innerHTML + "<h4>Error: Something Not found</h4>" 
+                   console.log(err)
+                   })
                    //localStorage.setItem(obj.email,JSON.stringify(obj));
                   //  showListofRegisteredUser(obj);
                 }
