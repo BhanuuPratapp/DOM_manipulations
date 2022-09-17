@@ -28,7 +28,7 @@
                         name,
                         email
                     }
-                    axios.post("https://crudcrud.com/api/dfce67c4ef5c4447bc1779e862e930dc/BookingAppointmentdata",obj)
+                    axios.post("https://crudcrud.com/api/7903ea7b5a3448f2b618df6c29df4bf1/BookingAppointmentdata",obj)
                    .then((response) =>{
                     showListofRegisteredUser(response.data);
                        console.log(response)
@@ -42,11 +42,25 @@
                 }
 
                 window.addEventListener('DOMContentLoaded', (event) => {
+
+                    axios.get("https://crudcrud.com/api/7903ea7b5a3448f2b618df6c29df4bf1/BookingAppointmentdata")
+                      .then((response) =>{
+                        console.log(response)
+                        for(i=0;i<response.data.length;i++){
+                        showListofRegisteredUser(response.data[i]);
+                      }
+                      })
+
+                      .catch(err => console.log(err))
+
+                      
+                      /*
                 Object.keys(localStorage).forEach(key => {
                     const user = JSON.parse(localStorage.getItem(key))
                     console.log(JSON.parse(localStorage.getItem(key)))
                     showListofRegisteredUser(user)
                 });
+                */
             });
 
             
