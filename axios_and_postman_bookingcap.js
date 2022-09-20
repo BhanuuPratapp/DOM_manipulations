@@ -28,7 +28,7 @@
                         name,
                         email
                     }
-                    axios.post("https://crudcrud.com/api/7903ea7b5a3448f2b618df6c29df4bf1/BookingAppointmentdata",obj)
+                    axios.post("https://crudcrud.com/api/f537c2feefb64a68b509203514128c40/BookingAppointmentdata",obj)
                    .then((response) =>{
                     showListofRegisteredUser(response.data);
                        console.log(response)
@@ -43,7 +43,7 @@
 
                 window.addEventListener('DOMContentLoaded', (event) => {
 
-                    axios.get("https://crudcrud.com/api/7903ea7b5a3448f2b618df6c29df4bf1/BookingAppointmentdata")
+                    axios.get("https://crudcrud.com/api/f537c2feefb64a68b509203514128c40/BookingAppointmentdata")
                       .then((response) =>{
                         console.log(response)
                         for(i=0;i<response.data.length;i++){
@@ -85,13 +85,25 @@
                 }
 
                 function deleteUser(userName){
+                    
+                    axios.get("https://crudcrud.com/api/f537c2feefb64a68b509203514128c40/BookingAppointmentdata")
+                      .then((response) =>{
+                       // console.log(response.data[0]._id)
+                        axios
+                    .delete(`https://crudcrud.com/api/f537c2feefb64a68b509203514128c40/BookingAppointmentdata/${response.data[0]._id}`)
+                    //localStorage.removeItem(userName);
+                   
+                 
+                      
+                      })
 
-                    localStorage.removeItem(userName);
-                    removeUsersFromScreen(userName);
-
+                     
+                     
+                      removeUsersFromScreen(userName);
                 }
 
                 function removeUsersFromScreen(emailID){
+                 
                     var parentNode1 = document.getElementById('listofusers');
                     var childNodeToBeDeleted = document.getElementById(emailID);
                     if(childNodeToBeDeleted){
